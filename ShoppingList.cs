@@ -2,6 +2,7 @@
 class ShoppingList
 {
     private List<Item> items = new List<Item>();
+    public int Count => items.Count;
     private string path;
 
     public ShoppingList(string path)
