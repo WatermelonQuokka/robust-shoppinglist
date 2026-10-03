@@ -1,3 +1,4 @@
+// TODO: låt användaren avbryta "Lägg till" och "Ta bort"?
 ShoppingList list = new ShoppingList("items.txt");
 list.Load();
 string invalidChoice = "Skriv in ett giltigt alternativ.\nTryck på valfri tangent för att återgå till menyn.";
