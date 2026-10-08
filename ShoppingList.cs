@@ -82,12 +82,31 @@ class ShoppingList
     // Reads the file back into the list.
     public void Load()
     {
-        string text = File.ReadAllText(path);
+        string text;
+        try
+        {
+            text = File.ReadAllText(path);
+        }
+        catch (FileNotFoundException)
+        {
+            Console.WriteLine("Shoppinglistan kunde inte hittas.\nIfall du är ny användare välj Spara i menyn för att skapa en ny shoppinglista.");
+            return;
+        }
+        catch (UnauthorizedAccessException)
+        {
+            Console.WriteLine("Programmet har inte tillåtelse att öppna din shoppinglista.\nSpara inte om du vill behålla din sparade shoppinglista.\nTesta att flytta programmet till en egen mapp eller fråga någon kunnig för hjälp.");
+            return;
+        }
+        catch (IOException)
+        {
+            Console.WriteLine("Shoppinglistan kunde inte öppnas just nu.\nSpara inte om du vill behålla din sparade shoppinglista.\nProva att stänga ner andra program och starta om programmet för att försöka igen.");
+            return;
+        }
         string[] lines = text.Split('\n');
 
         foreach (string line in lines)
         {
-            if(string.IsNullOrWhiteSpace(line))
+            if (string.IsNullOrWhiteSpace(line))
             {
                 continue;
             }
