@@ -72,8 +72,19 @@ class ShoppingList
         {
             File.WriteAllText(path, string.Join("\r\n", lines) + "\r\n");
         }
-        catch
+        catch (UnauthorizedAccessException)
         {
+            Console.Clear();
+            Console.WriteLine("!OBS!\nProgrammet har inte tillåtelse att spara dina ändringar i listan.\nDina ändringar finns fortfarande i programmet men förloras om du avslutar.\nKontrollera att filen inte är skrivskyddad och välj Spara igen i menyn.\nAnnars be någon kunnig om hjälp eller skriv av listan som visas ovanför menyn innan avslut.\nTryck på valfri tangent för att återgå till menyn.");
+            Console.ReadKey();
+            return;
+        }
+        catch (IOException)
+        {
+            Console.Clear();
+            Console.WriteLine("!OBS!\nListan kunde inte sparas.\nDina ändringar finns fortfarande i programmet men förloras om du avslutar.\nProva att stänga ner andra program som kanske använder filen och spara igen.\nTryck på valfri tangent för att återgå till menyn.");
+            Console.ReadKey();
+            return;
         }
 
         Console.WriteLine("Listan är sparad.");
@@ -94,7 +105,7 @@ class ShoppingList
         }
         catch (UnauthorizedAccessException)
         {
-            Console.WriteLine("Programmet har inte tillåtelse att öppna din shoppinglista.\nSpara inte om du vill behålla din sparade shoppinglista.\nTesta att flytta programmet till en egen mapp eller fråga någon kunnig för hjälp.");
+            Console.WriteLine("Programmet har inte tillåtelse att öppna din shoppinglista.\nSpara inte om du vill behålla din sparade shoppinglista.\nTesta att flytta programmet till en egen mapp eller be någon kunnig om hjälp.");
             return;
         }
         catch (IOException)
