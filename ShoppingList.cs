@@ -4,14 +4,20 @@ class ShoppingList
     private List<Item> items = new List<Item>();
     public int Count => items.Count;
     private string path;
+    private int limit;
 
-    public ShoppingList(string path)
+    public ShoppingList(string path, int limit)
     {
         this.path = path;
+        this.limit = limit;
     }
 
     public void Add(Item item)
     {
+        if(Total() + item.Price > limit)
+        {
+            throw new InvalidOperationException($"Varan kostar {item.Price} kr men du har bara {limit - Total()} kr kvar av din budget.");
+        }
         items.Add(item);
     }
 

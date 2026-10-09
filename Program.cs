@@ -1,5 +1,19 @@
 // TODO: låt användaren avbryta "Lägg till" och "Ta bort"?
-ShoppingList list = new ShoppingList("items.txt");
+int budget;
+bool isBudgetValid;
+do
+{
+    Console.Write("Vad vill du lägga för budget på shoppinglistan? ");
+    isBudgetValid = int.TryParse(Console.ReadLine(), out budget) && budget >= 1;
+    if (!isBudgetValid)
+    {
+        Console.Clear();
+        Console.WriteLine("Du har skrivit in en ogiltig budget.\nSkriv in ett heltal som är större än 0.\nFörsök igen genom att trycka på valfri tangent.");
+        Console.ReadKey();
+    }
+}
+while (!isBudgetValid);
+ShoppingList list = new ShoppingList("items.txt", budget);
 list.Load();
 string invalidChoice = "Skriv in ett giltigt alternativ.\nTryck på valfri tangent för att återgå till menyn.";
 
@@ -41,11 +55,32 @@ while (true)
             }
         }
         while (!isPriceValid);
-        list.Add(new Item(name, price));
+        try
+        {
+            list.Add(new Item(name, price));
+        }
+        catch (ArgumentOutOfRangeException)
+        {
+            Console.Clear();
+            Console.WriteLine("Priset får inte vara 0 eller lägre.\nTryck på valfri tangent för att återgå till menyn.");
+            Console.ReadKey();
+        }
+        catch (ArgumentException ex)
+        {
+            Console.Clear();
+            Console.WriteLine($"Varan kunde inte läggas till.\n{ex.Message}\nTryck på valfri tangent för att återgå till menyn.");
+            Console.ReadKey();
+        }
+        catch (InvalidOperationException ex)
+        {
+            Console.Clear();
+            Console.WriteLine($"Varan kunde inte läggas till.\n{ex.Message}\nTryck på valfri tangent för att återgå till menyn.");
+            Console.ReadKey();
+        }
     }
     else if (choice == 2)
     {
-        if(list.Count == 0)
+        if (list.Count == 0)
         {
             Console.Clear();
             Console.WriteLine("Det finns ingen vara att ta bort.\nTryck på valfri tangent för att återgå till huvudmenyn.");
