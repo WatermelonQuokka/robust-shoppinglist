@@ -62,6 +62,7 @@ class ShoppingList
         }
 
         Console.WriteLine($"Totalt: {Total()} kr");
+        Console.WriteLine($"Budget kvar: {limit - Total()} kr");
     }
 
     // Writes one item per line, as "price;name".

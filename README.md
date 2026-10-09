@@ -38,5 +38,34 @@
 ### Fel nr 8: Programkrasch vid rader med fel format i `Load()`
 - Jag märkte att programmet kraschar om det finns rader med fel format i `items.txt` så jag gjorde så att `Load()` skippar rader som har fel format. Alltså om det inte finns exakt två delar efter `Split(';')`, ogiltigt pris via `Item.TryParsePrice` eller ett tomt namn.
 ## Designval
-
+### Budgettak
+Att gå över en budget i en shoppinglista är inte oväntat, och en `bool` hade fungerat. Mitt val hamnade på en exception *InvalidOperationException* på grund av att ett returnerat `false` kan ignoreras utan att man märker det. Jag stötte på ett liknande problem i fel nr 6 där den tomma `catch` i `Save()` gömde att listan inte lyckades sparas och berättade för användaren något falskt. Utöver det så vet `ShoppingList` både om `limit` och `Total()` så att den kan göra uträkningen hur mycket som är kvar av budgeten i undantagets meddelande. All budgetlogik finns kvar i `ShoppingList` och `Program.cs` fångar *InvalidOperationException*, visar `ex.Message` och programmet fortsätter köra.
 ## Klassdiagram
+```mermaid
+classDiagram
+    class Item {
+        +string Name
+        +int Price
+        +Item(string name, int price)
+        +TryParsePrice(string text, out int price)$ bool
+        +ToString() string
+    }
+    class ShoppingList {
+        -List~Item~ items
+        +int Count
+        -string path
+        -int limit
+        +ShoppingList(string path, int limit)
+        +Add(Item item)
+        +RemoveAt(int number)
+        +Total() int
+        +Find(string name) Item
+        +Print()
+        +Save()
+        +Load()
+    }
+    class Program
+    Program --> ShoppingList
+    Program --> Item
+    ShoppingList --> Item
+```

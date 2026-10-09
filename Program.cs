@@ -1,4 +1,3 @@
-// TODO: låt användaren avbryta "Lägg till" och "Ta bort"?
 int budget;
 bool isBudgetValid;
 do
