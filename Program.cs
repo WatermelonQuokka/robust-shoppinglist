@@ -32,11 +32,11 @@ while (true)
         do
         {
             Console.Write($"Pris för {name}: ");
-            isPriceValid = int.TryParse(Console.ReadLine(), out price) && price >= 0;
+            isPriceValid = Item.TryParsePrice(Console.ReadLine(), out price);
             if (!isPriceValid)
             {
                 Console.Clear();
-                Console.WriteLine("Du har skrivit in ett ogiltigt pris.\nSkriv in ett heltal som inte är negativt.\nFörsök igen genom att trycka på valfri tangent.");
+                Console.WriteLine("Du har skrivit in ett ogiltigt pris.\nSkriv in ett heltal som är större än 0.\nFörsök igen genom att trycka på valfri tangent.");
                 Console.ReadKey();
             }
         }

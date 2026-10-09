@@ -10,6 +10,11 @@ class Item
         Price = price;
     }
 
+    public static bool TryParsePrice(string text, out int price)
+    {
+        return int.TryParse(text, out price) && price >= 1;
+    }
+
     public override string ToString()
     {
         return $"{Name} - {Price} kr";

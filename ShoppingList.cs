@@ -122,7 +122,13 @@ class ShoppingList
                 continue;
             }
             string[] parts = line.Split(';');
-            items.Add(new Item(parts[1].Trim(), int.Parse(parts[0])));
+            int price;
+            if (parts.Length != 2 || !Item.TryParsePrice(parts[0], out price) || string.IsNullOrWhiteSpace(parts[1]))
+            {
+                // was planning to calculate the amount of rows skipped and showing them
+                continue;
+            }
+            items.Add(new Item(parts[1].Trim(), price));
         }
     }
 }
